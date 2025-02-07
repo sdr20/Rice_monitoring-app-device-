@@ -15,7 +15,7 @@ class TemperatureMonitorApp extends StatelessWidget {
         primaryColor: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      debugShowCheckedModeBanner: false, // Remove the debug label
+      debugShowCheckedModeBanner: false,
       home: TemperatureScreen(),
     );
   }
@@ -27,8 +27,8 @@ class TemperatureScreen extends StatefulWidget {
 }
 
 class _TemperatureScreenState extends State<TemperatureScreen> {
-  List<double> temperatures = [0.0, 0.0, 0.0];
-  String _serverIP = '192.168.4.1'; // Replace with your ESP32's IP
+  List<double> temperatures = [0.0, 0.0, 0.0, 0.0];
+  String _serverIP = '192.168.4.1';
 
   @override
   void initState() {
@@ -60,16 +60,16 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
 
   Widget _buildThermometer(double temperature, Color color, String label) {
     double heightFactor = (temperature - 20) / 10;
-    heightFactor = heightFactor < 0 ? 0 : heightFactor > 1 ? 1 : heightFactor; // Ensure height factor is between 0 and 1
+    heightFactor = heightFactor < 0 ? 0 : heightFactor > 1 ? 1 : heightFactor;
 
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           label,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        SizedBox(height: 10),
+        SizedBox(width: 20),
         Container(
           width: 100,
           height: 200,
@@ -83,7 +83,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
               AnimatedContainer(
                 duration: Duration(milliseconds: 500),
                 width: 60,
-                height: 200 * heightFactor, // Scale the height based on temperature
+                height: 200 * heightFactor,
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(20),
@@ -110,32 +110,28 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
         title: Text('Rice Storage Temperature'),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 180.0), // Add padding to move thermometers higher
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildThermometer(temperatures[0], Colors.red, 'Sensor 1'),
-                  SizedBox(width: 20),
-                  _buildThermometer(temperatures[1], Colors.blue, 'Sensor 2'),
-                  SizedBox(width: 20),
-                  _buildThermometer(temperatures[2], Colors.green, 'Sensor 3'),
-                ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildThermometer(temperatures[3], Colors.purple, 'Sensor 4'),
+              SizedBox(height: 20),
+              _buildThermometer(temperatures[2], Colors.green, 'Sensor 3'),
+              SizedBox(height: 20),
+              _buildThermometer(temperatures[1], Colors.blue, 'Sensor 2'),
+              SizedBox(height: 20),
+              _buildThermometer(temperatures[0], Colors.red, 'Sensor 1'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '© Roman',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                ),
               ),
-            ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '© Roman',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
