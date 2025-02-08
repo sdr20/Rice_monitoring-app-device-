@@ -38,6 +38,16 @@ void setup() {
   sensors3.begin();
   sensors4.begin();
 
+  // Check if sensors are connected
+  Serial.print("Sensor 1 found: ");
+  Serial.println(sensors1.getDeviceCount());
+  Serial.print("Sensor 2 found: ");
+  Serial.println(sensors2.getDeviceCount());
+  Serial.print("Sensor 3 found: ");
+  Serial.println(sensors3.getDeviceCount());
+  Serial.print("Sensor 4 found: ");
+  Serial.println(sensors4.getDeviceCount());
+
   // Setup web server route
   server.on("/temperatures", HTTP_GET, []() {
     sensors1.requestTemperatures();
@@ -80,20 +90,36 @@ void loop() {
 
     Serial.println("Current Temperatures:");
     Serial.print("Sensor 1: ");
-    Serial.print(temperature1);
-    Serial.println(" °C");
+    if (temperature1 != DEVICE_DISCONNECTED_C) {
+      Serial.print(temperature1);
+      Serial.println(" °C");
+    } else {
+      Serial.println("Error");
+    }
 
     Serial.print("Sensor 2: ");
-    Serial.print(temperature2);
-    Serial.println(" °C");
+    if (temperature2 != DEVICE_DISCONNECTED_C) {
+      Serial.print(temperature2);
+      Serial.println(" °C");
+    } else {
+      Serial.println("Error");
+    }
 
     Serial.print("Sensor 3: ");
-    Serial.print(temperature3);
-    Serial.println(" °C");
+    if (temperature3 != DEVICE_DISCONNECTED_C) {
+      Serial.print(temperature3);
+      Serial.println(" °C");
+    } else {
+      Serial.println("Error");
+    }
 
     Serial.print("Sensor 4: ");
-    Serial.print(temperature4);
-    Serial.println(" °C");
+    if (temperature4 != DEVICE_DISCONNECTED_C) {
+      Serial.print(temperature4);
+      Serial.println(" °C");
+    } else {
+      Serial.println("Error");
+    }
 
     Serial.println("--------------------");
   }

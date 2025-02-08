@@ -58,9 +58,10 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
     }
   }
 
-  Widget _buildThermometer(double temperature, Color color, String label) {
-    double heightFactor = (temperature - 20) / 10;
+  Widget _buildThermometer(double temperature, String label) {
+    double heightFactor = (temperature - 20) / 30;
     heightFactor = heightFactor < 0 ? 0 : heightFactor > 1 ? 1 : heightFactor;
+    Color color = temperature > 35 ? Colors.red : Colors.blue;
 
     return Column(
       children: [
@@ -115,7 +116,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 200,
+                width: 90,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.grey[600],
@@ -124,13 +125,13 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildThermometer(temperatures[3], Colors.purple, 'Sensor 4'),
+                    _buildThermometer(temperatures[3], 'Sensor 4'),
                     SizedBox(height: 20),
-                    _buildThermometer(temperatures[2], Colors.green, 'Sensor 3'),
+                    _buildThermometer(temperatures[2], 'Sensor 3'),
                     SizedBox(height: 20),
-                    _buildThermometer(temperatures[1], Colors.blue, 'Sensor 2'),
+                    _buildThermometer(temperatures[1], 'Sensor 2'),
                     SizedBox(height: 20),
-                    _buildThermometer(temperatures[0], Colors.red, 'Sensor 1'),
+                    _buildThermometer(temperatures[0], 'Sensor 1'),
                   ],
                 ),
               ),
